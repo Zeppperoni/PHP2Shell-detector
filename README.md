@@ -1,4 +1,4 @@
-# PHP2Shell Discovery Scanner
+# PHP2Shell Discovery Scanner Vibecoded
 
 A multithreaded PowerShell 7 scanner for identifying web servers running potentially vulnerable or unsupported PHP versions associated with:
 
