@@ -425,6 +425,5 @@ Unauthorized scanning may violate organizational policies, contracts, or applica
 
 # Author
 
-Internal Security Assessment Utility
-
-Manager, Information Technology Security, Privacy & Compliance
+Giuseppe Aloisi
+https://www.linkedin.com/in/giuseppe-aloisi/
