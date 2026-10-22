@@ -27,10 +27,10 @@ Vulnerable Version Criteria
 
 Flag as potentially vulnerable when PHP is below:
 
-*8.5.12
-*8.4.27
-*8.3.36
-*8.2.35
+* 8.5.12
+* 8.4.27
+* 8.3.36
+* 8.2.35
 
 Any PHP 8.1 or older instance should be reviewed carefully because upstream support has ended, although some vendors may provide backported fixes.
 
