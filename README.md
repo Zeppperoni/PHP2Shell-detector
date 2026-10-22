@@ -1,4 +1,4 @@
-PowerShell Script
+CVE-2026-109618-CVE-2026-109619
 
 This script:
 Scans common web ports (80, 443, 8080, 8443)
