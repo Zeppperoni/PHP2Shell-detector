@@ -19,7 +19,7 @@ The scanner supports:
 - Detection of EOL PHP 8.0 and 8.1 installations
 
 ---
-# updates
+# Updates
 Working on a bash verion
 
 # Features
