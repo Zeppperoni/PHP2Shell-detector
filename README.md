@@ -1,4 +1,4 @@
-CVE-2026-109618-CVE-2026-109619
+# CVE-2026-109618-CVE-2026-109619
 
 This script:
 Scans common web ports (80, 443, 8080, 8443)
@@ -7,12 +7,13 @@ Extracts the version where possible
 Flags potentially vulnerable versions
 Does not exploit the vulnerability
 
+```
 $Targets = @(
     "10.10.1.25",
     "10.10.1.50",
     "webapp01.corp.local"
 )
-
+```
 .\Check-PHP2Shell.ps1 -Targets $Targets
 
 Faster Enterprise Sweep
