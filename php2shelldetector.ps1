@@ -260,9 +260,18 @@ $Results = $ScanJobs | ForEach-Object -Parallel {
             $null
         )
   
-        if (-not $Connect.AsyncWaitHandle.WaitOne(1000)) {
-            return
-        }
+       if (-not $Connect.AsyncWaitHandle.WaitOne(1000)) {
+  
+    return [PSCustomObject]@{
+        Host        = $HostName
+        Port        = $Port
+        URL         = $null
+        PathFound   = $null
+        PHPVersion  = $null
+        Assessment  = "Unreachable"
+        Server      = $null
+    }
+}
   
         $Client.EndConnect($Connect)
         $Client.Close()
@@ -310,29 +319,66 @@ foreach ($Path in $Using:CommonPaths) {
         continue
     }
 }
-  
 if (-not $Response) {
-    return
+  
+    return [PSCustomObject]@{
+        Host        = $HostName
+        Port        = $Port
+        URL         = $Url
+        PathFound   = $FoundPath
+        PHPVersion  = $null
+        Assessment  = "No Web Response"
+        Server      = $null
+    }
 }
   
-        $Version = $null
+# Detect PHP even when version is hidden
+$PHPDetected = $false
   
-        $PoweredBy = $Response.Headers["X-Powered-By"]
+if ($Response.Headers["X-Powered-By"] -match "PHP") {
+    $PHPDetected = $true
+}
+  
+if ($Response.Content -match "PHP") {
+    $PHPDetected = $true
+}
+  
+$Version = $null
+  
+$PoweredBy = $Response.Headers["X-Powered-By"]
   
         if ($PoweredBy -match 'PHP\/([\d\.]+)') {
             $Version = $matches[1]
         }
   
-        if (-not $Version) {
+if (-not $Version) {
   
-            if ($Response.Content -match 'PHP Version\s+([\d\.]+)') {
-                $Version = $matches[1]
-            }
+    if ($PHPDetected) {
+  
+        return [PSCustomObject]@{
+            Host        = $HostName
+            Port        = $Port
+            URL         = $Url
+            PathFound   = $FoundPath
+            PHPVersion  = "Unknown"
+            Assessment  = "PHP Detected - Version Unknown"
+            Server      = $Response.Headers["Server"]
         }
   
-        if (-not $Version) {
-            return
+    } else {
+  
+        return [PSCustomObject]@{
+            Host        = $HostName
+            Port        = $Port
+            URL         = $Url
+            PathFound   = $FoundPath
+            PHPVersion  = $null
+            Assessment  = "No PHP Detected"
+            Server      = $Response.Headers["Server"]
         }
+  
+    }
+}
   
         $VerObj = [version]$Version
         $Branch = "$($VerObj.Major).$($VerObj.Minor)"
